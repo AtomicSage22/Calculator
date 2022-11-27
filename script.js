@@ -15,8 +15,10 @@ const populateDisplay = (value) =>{
         displayValue.textContent = initValue;
     }
     else{
+        nextValue = "";
         nextValue = nextValue.concat(value);
         displayValue.textContent = nextValue;
+        
     }
 };  
 
@@ -26,14 +28,23 @@ buttons.forEach((b)=>{
 
 operator.forEach((op)=>{
     op.addEventListener("click",()=>{
-        tempOp = op.getAttribute("data-value");
-        displayValue.textContent = `${op.getAttribute("data-value")}`;
+        if(tempOp === ""){
+            tempOp = op.getAttribute("data-value");
+            displayValue.textContent = `${op.getAttribute("data-value")}`;
+        }
+        else{
+            initValue = operate(Number(initValue), tempOp, Number(nextValue));
+            console.log(initValue);
+            tempOp = op.getAttribute("data-value");
+            displayValue.textContent = `${op.getAttribute("data-value")}`;
+        }
     });
 })
 
 allClear.addEventListener("click", ()=> {
     initValue = "";
     tempOp = "";
+    nextValue = "";
     displayValue.textContent = initValue;
 });
 
