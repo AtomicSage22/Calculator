@@ -1,62 +1,24 @@
 let initValue = "";
-let firstValue;
-let tempOp;
+let nextValue = "";
+let tempOp = "";
+let result;
 const displayValue = document.querySelector("p");
 const buttons = document.querySelectorAll(".number");
 const allClear = document.querySelector(".AC");
 const clearBtn = document.querySelector(".C");
 const operator = document.querySelectorAll(".operator");
-
-
-const add = function(a, b) {
-	return a + b;
-};
-
-const subtract = function(a, b) {
-  return a - b;
-};
-
-const multiply = function(a, b) {
-    return a * b;
-};
-
-const divide = function(a, b) {
-    return a / b;
-};
-
-const operate = (a, op, b) =>{
-    switch (op){
-        case "+":
-            {
-                return add(a, b);
-            }
-        case "-":
-            {
-                return subtract(a, b);
-            }
-        case "*":
-            {
-                return multiply(a, b);
-            }
-        case "/":
-            {
-                return divide(a, b);
-            }
-        default:
-            {
-                return "Enter valid operator";
-            }
-    }
-}
+const equals = document.querySelector(".equals");
 
 const populateDisplay = (value) =>{
-    initValue = initValue.concat(value); 
-    displayValue.textContent = initValue;
-};
-
-const postOperator = (value) =>{
-
-}
+    if (tempOp === ""){
+        initValue = initValue.concat(value); 
+        displayValue.textContent = initValue;
+    }
+    else{
+        nextValue = nextValue.concat(value);
+        displayValue.textContent = nextValue;
+    }
+};  
 
 buttons.forEach((b)=>{
     b.addEventListener("click",()=> populateDisplay(b.getAttribute("data-value")));
@@ -64,15 +26,14 @@ buttons.forEach((b)=>{
 
 operator.forEach((op)=>{
     op.addEventListener("click",()=>{
-        firstValue = initValue;
         tempOp = op.getAttribute("data-value");
-        initValue = "";
-        displayValue.textContent = initValue;
+        displayValue.textContent = `${op.getAttribute("data-value")}`;
     });
 })
 
 allClear.addEventListener("click", ()=> {
     initValue = "";
+    tempOp = "";
     displayValue.textContent = initValue;
 });
 
@@ -80,3 +41,35 @@ clearBtn.addEventListener("click", ()=> {
     initValue = initValue.slice(0, -1);
     displayValue.textContent = initValue;
 });
+
+equals.addEventListener("click", ()=>{
+    displayValue.textContent =  operate(Number(initValue), tempOp, Number(nextValue)); 
+    initValue = "";
+    nextValue = "";
+    tempOp = "";
+})
+
+const operate = (a, op, b) =>{
+    switch (op){
+        case "+":
+            {
+                return a + b;
+            }
+        case "-":
+            {
+                return a - b;
+            }
+        case "*":
+            {
+                return a * b;
+            }
+        case "/":
+            {
+                return a / b;
+            }
+        default:
+            {
+                return "Enter valid operator";
+            }
+    }
+}
